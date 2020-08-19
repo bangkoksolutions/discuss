@@ -4,6 +4,7 @@ config.php
 
 # These seem to be all temporary files.
 storage/
+storage/**/.gitkeep
 
 # Composer 'vendor' folder is generally ignored.
 vendor/
