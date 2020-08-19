@@ -1,0 +1,53 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+  
+    # https://github.com/mailhog/MailHog 
+    mailhog:
+      image: mailhog/mailhog:latest
+      ports:
+        - 8002:8025
+
+    myadmin:
+      image: phpmyadmin/phpmyadmin
+      environment:
+          TZ: Asia/Bangkok
+          PMA_HOST: mysql
+      ports:
+          - 8001:80
+      links: 
+          - mysql
+
+    mysql:
+      image: mysql:5.7
+      container_name: discuss-mysql
+      working_dir: /application
+      volumes:
+        - .:/application
+      environment:
+        - MYSQL_ROOT_PASSWORD=123456
+        - MYSQL_DATABASE=discuss
+        - MYSQL_USER=discuss
+        - MYSQL_PASSWORD=pp6321
+      ports:
+        - "8081:3306"
+
+    webserver:
+      image: nginx:alpine
+      container_name: discuss-webserver
+      working_dir: /application
+      volumes:
+          - .:/application
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "8080:80"
+
+    php-fpm:
+      build: phpdocker/php-fpm
+      container_name: discuss-php-fpm
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini

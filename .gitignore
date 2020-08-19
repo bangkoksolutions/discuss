@@ -1,0 +1,12 @@
+# It is advised to ignore config with database credentials. 
+# But we probably should provide a demo config.php to start from.
+config.php
+
+# These seem to be all temporary files.
+storage/
+
+# Composer 'vendor' folder is generally ignored.
+vendor/
+
+# We do not need user avatars under source control
+public/assets/avatars/
